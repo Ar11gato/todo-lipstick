@@ -1,0 +1,53 @@
+.footer {
+  width: 100%;
+  height: 10%;
+  background-color: white;
+  //border: black solid 1px;
+  border-radius: 1px;
+  color: #000;
+  display: flex;
+  align-items: center;
+
+  .list-counter {
+    display: flex;
+    align-items: center;
+    width: 20%;
+    height: 100%;
+
+    margin-left: 20px;
+  }
+
+  .list-states {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    height: 100%;
+
+    .all-list {
+      width: 20%;
+      height: 80%;
+      margin-right: 10px;
+    }
+
+    .active-list {
+      width: 20%;
+      height: 80%;
+    }
+
+    .completed-list {
+      margin-left: 10px;
+      width: 20%;
+      height: 80%;
+    }
+
+
+  }
+
+  .clear-tasks {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 20%;
+  }
+}
