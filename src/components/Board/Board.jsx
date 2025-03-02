@@ -23,23 +23,24 @@ export default function Board() {
       seconds: 1,
       status: "output-element completed",
       checked: true,
+      timerIsActive: false,
     },
-    // {
-    //   id: Math.random(),
-    //   text: "second task",
-    //   minutes: 0,
-    //   seconds: 2,
-    //   status: "output-element active",
-    //   checked: false,
-    // },
-    // {
-    //   id: Math.random(),
-    //   text: "third task",
-    //   minutes: 0,
-    //   seconds: 3,
-    //   status: "output-element completed",
-    //   checked: true,
-    // },
+    {
+      id: Math.random(),
+      text: "second task",
+      minutes: 0,
+      seconds: 2,
+      status: "output-element active",
+      checked: false,
+    },
+    {
+      id: Math.random(),
+      text: "third task",
+      minutes: 0,
+      seconds: 3,
+      status: "output-element completed",
+      checked: true,
+    },
   ]);
 
   useEffect(() => {
@@ -78,6 +79,14 @@ export default function Board() {
     });
   }, [list]);
 
+  const deleteItem = (id) => {
+    setList(list.filter((item) => item.id !== id));
+  };
+
+  const clearCompleted = () => {
+    setList(list.filter((item) => !item.checked));
+  };
+
   return (
     <>
       <div className="first-screen">
@@ -97,11 +106,17 @@ export default function Board() {
                   item={item}
                   setList={setList}
                   setNewList={setNewList}
+                  deleteItem={deleteItem}
                 />
               ))}
             </ul>
           </div>
-          <Footer items={itemsLeft} setFilter={setFilter} />
+          <Footer
+            items={itemsLeft}
+            setFilter={setFilter}
+            clearCompleted={clearCompleted}
+            list={list}
+          />
           <button
             className="edit-btn"
             onClick={() => {

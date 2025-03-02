@@ -5,10 +5,11 @@ import "./outputField.scss";
 import playBtn from "../../assets/play.svg";
 import stopBtn from "../../assets/stop.svg";
 
-const OutputField = ({ list, item, setList, setNewList }) => {
+const OutputField = ({ list, item, setList, setNewList, deleteItem }) => {
   const [time, setTime] = useState(item.minutes * 60 + item.seconds);
   const [checked, setChecked] = useState(item.checked);
   const [hidden, setHidden] = useState(["flex", "none"]);
+  const [timerButton, setTimerButton] = useState(playBtn);
 
   const [status, setStatus] = useState(item.status);
 
@@ -47,6 +48,39 @@ const OutputField = ({ list, item, setList, setNewList }) => {
     }
   };
 
+  const playTimer = () => {
+    if (!item.timerIsActive && !item.checked) {
+      setTimerButton(stopBtn);
+    } else if (item.timerIsActive && time !== 0) {
+      setTimerButton(playBtn);
+    }
+    if (time !== 0) {
+      const updateItem = {
+        ...item,
+        timerIsActive: !item.timerIsActive,
+      };
+      setNewList(updateItem);
+    }
+  };
+
+  useEffect(() => {
+    if (timerButton === stopBtn && time !== 0 && !item.checked) {
+      setTimeout(() => {
+        setTime((prev) => prev - 1);
+        console.log(time);
+      }, 1000);
+    } else if (timerButton === stopBtn && time === 0) {
+      setTimerButton(playBtn);
+      const updateItem = {
+        ...item,
+        timerIsActive: !item.timerIsActive,
+        status: "output-element completed",
+        checked: true,
+      };
+      setNewList(updateItem);
+    }
+  }, [time, timerButton]);
+
   return (
     <li className={item.status}>
       <input
@@ -67,11 +101,11 @@ const OutputField = ({ list, item, setList, setNewList }) => {
         </div>
         <div className="time-panel">
           <img
-            src={playBtn}
+            src={timerButton}
             alt=""
             className="play-btn"
             onClick={() => {
-              console.log("new item: ");
+              playTimer();
             }}
           />
           <div className="timer">
@@ -90,7 +124,14 @@ const OutputField = ({ list, item, setList, setNewList }) => {
           >
             edit
           </button>
-          <button className="delete-btn">X</button>
+          <button
+            className="delete-btn"
+            onClick={() => {
+              deleteItem(item.id);
+            }}
+          >
+            X
+          </button>
         </div>
       </div>
     </li>

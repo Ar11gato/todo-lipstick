@@ -1,7 +1,7 @@
 import React from "react";
 import "./footer.scss";
 
-const Footer = ({ setFilter, items }) => {
+const Footer = ({ setFilter, items, clearCompleted }) => {
   return (
     <div className="footer">
       <div className="list-counter">{items} items left</div>
@@ -19,7 +19,14 @@ const Footer = ({ setFilter, items }) => {
           Completed
         </button>
       </div>
-      <div className="clear-tasks">Clear completed</div>
+      <div
+        className="clear-tasks"
+        onClick={() => {
+          clearCompleted();
+        }}
+      >
+        Clear completed
+      </div>
     </div>
   );
 };
